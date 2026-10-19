@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PUBLIC_DIR = path.join(__dirname, 'public');
-const HOST = process.env.HOST || '127.0.0.1';
+const HOST = '0.0.0.0';
 const PORT = Number(process.env.PORT || 8787);
 const PASSWORD = process.env.DASHBOARD_PASSWORD || '';
 const SESSION_SECRET = process.env.SESSION_SECRET || '';
