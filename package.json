@@ -1,0 +1,14 @@
+{
+  "name": "blockplan-live-backend",
+  "version": "0.1.1",
+  "private": true,
+  "description": "Password-protected live player bridge for Blockplan",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "start:local": "node --env-file=.env server.js"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
