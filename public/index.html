@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Blockplan – Minecraft City Planner</title>
+<style>
+:root{--bg:#0e1117;--panel:#151b24;--panel2:#1a2230;--border:#293548;--text:#e8eef7;--muted:#94a3b8;--accent:#7dd3c7;--accent2:#e8b86d;--danger:#fb7185;--shadow:0 18px 48px #0006}
+*{box-sizing:border-box} body{margin:0;background:radial-gradient(ellipse at 52% -20%,#24364a 0,transparent 52%),var(--bg);color:var(--text);font:14px/1.4 Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;min-height:100vh}
+button,input,select{font:inherit} button{cursor:pointer;color:inherit;background:#222d3d;border:1px solid #35445a;border-radius:9px;padding:8px 11px;transition:.16s ease}button:hover{background:#2a384b;border-color:#61758e}button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:2px}button.primary{background:#237f78;border-color:#3bada0;color:white;font-weight:650}button.primary:hover{background:#2d968d}button.danger{color:#fecdd3;border-color:#743d4a;background:#3a2029}button.icon{width:36px;height:34px;padding:0;font-size:17px;display:grid;place-items:center}button.small{padding:6px 9px;font-size:12px}.app{max-width:1600px;margin:0 auto;padding:18px 22px 30px}.topbar{display:flex;align-items:center;gap:18px;border-bottom:1px solid var(--border);padding:1px 0 16px;margin-bottom:18px}.brand{display:flex;align-items:center;gap:10px;min-width:245px}.brandmark{width:37px;height:37px;border-radius:11px;background:linear-gradient(135deg,#68b8a8,#427a94);display:grid;place-items:center;color:#0b1b23;font-size:22px;box-shadow:0 6px 18px #4fb9aa30}.brandname{font-weight:850;font-size:16px;letter-spacing:.1em}.brandname small{display:block;font-size:10px;font-weight:600;color:var(--muted);letter-spacing:.16em;margin-top:2px}.projecttitle{display:flex;align-items:center;gap:10px;flex:1}.projecttitle input{background:transparent;border:1px solid transparent;color:var(--text);padding:8px 10px;border-radius:8px;font-weight:750;font-size:17px;width:min(440px,100%)}.projecttitle input:hover,.projecttitle input:focus{border-color:var(--border);background:#121821}.status{display:inline-flex;align-items:center;gap:6px;color:#9ce5c5;font-size:12px;white-space:nowrap}.dot{width:7px;height:7px;background:#63d8a2;border-radius:50%;box-shadow:0 0 9px #63d8a280}.topactions{display:flex;gap:8px;align-items:center}.workspace{display:grid;grid-template-columns:246px minmax(360px,1fr) 260px;gap:15px;align-items:stretch}.panel{background:linear-gradient(180deg,#171e29,#131923);border:1px solid var(--border);border-radius:15px;box-shadow:var(--shadow);overflow:hidden;min-width:0}.panelhead{padding:15px 15px 12px;border-bottom:1px solid #273243;display:flex;align-items:center;justify-content:space-between;gap:8px}.panelhead h2,.sectiontitle{margin:0;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#a9b7ca;font-weight:800}.panelbody{padding:14px}.tools{display:grid;grid-template-columns:1fr 1fr;gap:7px}.toolbtn{display:flex;gap:8px;align-items:center;text-align:left;min-height:43px;font-weight:650}.toolbtn .toolicon{font-size:19px;width:24px;text-align:center}.toolbtn.active{background:#1b4547;border-color:#377c78;box-shadow:inset 0 0 0 1px #357a74}.subsection{margin-top:21px}.subsection:first-child{margin-top:0}.sectiontop{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}.sectiontitle{font-size:10px}.tiny{font-size:11px;color:var(--muted)}.materials{display:grid;grid-template-columns:1fr 1fr;gap:7px}.mat{display:flex;align-items:center;gap:8px;border:1px solid #303c4f;background:#1a2330;border-radius:9px;padding:8px 7px;text-align:left;min-width:0}.mat.selected{border-color:var(--accent);background:#1b3538;box-shadow:inset 0 0 0 1px #7dd3c744}.swatch{height:18px;width:18px;flex:none;border-radius:4px;border:1px solid #ffffff38;box-shadow:inset 0 2px 2px #ffffff20}.matname{font-size:11px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.mat kbd{font-size:10px;color:#91a2b8;margin-left:auto}.hint{margin-top:12px;background:#111a25;border:1px solid #283648;border-radius:9px;padding:10px;font-size:11px;color:#9eafc4;line-height:1.55}.hint strong{color:#d8e7f5}.viewer{display:flex;flex-direction:column;min-height:690px}.viewerhead{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--border);flex-wrap:wrap}.viewtab{border:0;background:transparent;color:var(--muted);border-radius:7px;padding:7px 10px;font-weight:700}.viewtab.active{background:#273447;color:var(--text)}.spacer{flex:1}.viewcontrols{display:flex;gap:6px;align-items:center}.canvaswrap{position:relative;flex:1;min-height:530px;overflow:hidden;background:radial-gradient(ellipse at 50% 38%,#263647 0,#182432 43%,#111821 100%)}canvas{display:block;width:100%;height:100%;min-height:530px;touch-action:none;cursor:crosshair}.overlaytop{position:absolute;left:15px;top:14px;display:flex;gap:7px;flex-wrap:wrap;pointer-events:none}.pill{padding:5px 8px;border-radius:7px;background:#0d141dcf;border:1px solid #415167;color:#c7d4e4;font-size:10px;letter-spacing:.07em;text-transform:uppercase;backdrop-filter:blur(6px)}.pill.emph{color:#9de2d8;border-color:#3f7f7b}.canvasnote{position:absolute;left:15px;bottom:13px;color:#b8c5d5;background:#0b1119d9;border:1px solid #354458;border-radius:8px;padding:8px 10px;font-size:11px;pointer-events:none;max-width:calc(100% - 30px)}.crosshair{position:absolute;right:15px;top:14px;display:flex;flex-direction:column;gap:6px}.coords{background:#0b1119d9;border:1px solid #354458;border-radius:8px;padding:8px 10px;font:11px ui-monospace,monospace;color:#bcd3de;min-width:108px;text-align:right}.viewerfoot{border-top:1px solid var(--border);padding:10px 14px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;color:var(--muted);font-size:11px}.keycap{display:inline-block;background:#273244;border:1px solid #3c4b62;border-radius:4px;padding:1px 5px;color:#cbd5e1;font:10px ui-monospace,monospace}.rightstack{display:flex;flex-direction:column;gap:14px}.rightstack .panel{box-shadow:none}.metricgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.metric{background:#1b2431;border:1px solid #2b394c;border-radius:10px;padding:11px}.metric strong{display:block;font-size:22px;letter-spacing:-.04em}.metric span{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}.layercontrol{display:flex;align-items:center;justify-content:space-between;gap:9px}.layernum{display:flex;align-items:center;gap:9px}.layernum strong{font-size:24px;width:30px;text-align:center}.stepper{display:flex;gap:5px}.progressline{height:7px;border-radius:99px;background:#263244;overflow:hidden;margin:11px 0 7px}.progressline span{display:block;height:100%;width:0;background:linear-gradient(90deg,#5bbaa9,#b8e49b);border-radius:99px;transition:width .2s}.list{display:flex;flex-direction:column;gap:8px}.listrow{display:flex;align-items:center;gap:8px;color:#cbd5e1;font-size:12px}.listrow .swatch{height:13px;width:13px;border-radius:3px}.count{margin-left:auto;font:11px ui-monospace,monospace;color:#98a9bd}.empty{color:var(--muted);font-size:12px;line-height:1.6}.warning{background:#30271a;border:1px solid #75572c;border-radius:10px;padding:11px;font-size:11px;line-height:1.55;color:#e9d1a4}.warning strong{color:#ffdfa0;display:block;margin-bottom:5px;font-size:12px}.warning ul{padding-left:17px;margin:6px 0 0}.warning li{margin:4px 0}.rightbottom{margin-top:auto}.bottomhint{border-top:1px solid var(--border);margin-top:18px;padding-top:12px;color:#6f8199;font-size:11px;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}.modalback{display:none;position:fixed;inset:0;z-index:10;background:#05080cba;align-items:center;justify-content:center;padding:20px}.modalback.show{display:flex}.modal{width:min(560px,100%);background:#161f2b;border:1px solid #40516a;border-radius:16px;box-shadow:0 24px 80px #000a;overflow:hidden}.modalheader{padding:16px 19px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}.modalheader h2{margin:0;font-size:16px}.modalcontent{padding:20px;line-height:1.6;color:#c4d0df}.modalcontent code{color:#a4e6d9;background:#0c141d;padding:2px 5px;border-radius:4px}.modalcontent button{margin-top:10px}.fileinput{display:none}.toast{position:fixed;bottom:20px;left:50%;transform:translate(-50%,15px);opacity:0;transition:.22s;background:#dff9f0;color:#12332c;font-weight:700;padding:10px 15px;border-radius:10px;box-shadow:var(--shadow);z-index:20;pointer-events:none}.toast.show{opacity:1;transform:translate(-50%,0)}
+@media(max-width:1120px){.workspace{grid-template-columns:220px minmax(0,1fr)}.rightstack{grid-column:1 / -1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));align-items:start}.rightbottom{margin-top:0}.viewer{min-height:650px}.canvaswrap{min-height:490px}}
+@media(max-width:760px){.app{padding:10px}.topbar{flex-wrap:wrap}.brand{min-width:0}.projecttitle{order:3;flex-basis:100%}.topactions{margin-left:auto}.status{display:none}.workspace{grid-template-columns:1fr}.leftpanel{order:2}.viewer{order:1;min-height:580px}.rightstack{order:3;grid-template-columns:1fr}.canvaswrap,canvas{min-height:430px}.materials{grid-template-columns:repeat(3,1fr)}.toolbtn{min-height:38px}.viewerhead{gap:4px}.viewerhead .viewtab{padding:7px}.brandname{font-size:14px}}
+
+/* Blockplan Live Bridge additions */
+.player-overlay{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:3}
+.player-pin{position:absolute;display:flex;flex-direction:column;align-items:center;gap:2px;transform:translate(-50%,-100%);filter:drop-shadow(0 2px 5px #000a);white-space:nowrap}
+.player-pin img{width:25px;height:25px;image-rendering:pixelated;border:2px solid #7dd3c7;border-radius:5px;background:#15202d;box-shadow:0 0 0 2px #0d141d}
+.player-pin .pinname{font-size:10px;font-weight:800;background:#0b121de8;border:1px solid #568b86;border-radius:5px;padding:2px 5px;color:#e7fff9;max-width:130px;overflow:hidden;text-overflow:ellipsis}
+.live-tools{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:10px}
+.live-tools label{font-size:10px;color:var(--muted);display:flex;flex-direction:column;gap:3px}
+.live-tools input,.live-tools select{width:100%;min-width:0;background:#0f1722;color:var(--text);border:1px solid #35445a;border-radius:7px;padding:6px 7px;font-size:12px}
+.live-state{font-size:10px;border-radius:20px;padding:4px 7px;background:#292b35;color:#cbd5e1;white-space:nowrap}
+.live-state.ok{background:#183a33;color:#a3f2ce}.live-state.warn{background:#3d2d1a;color:#f9d18c}
+.live-roster{display:flex;flex-direction:column;gap:8px;max-height:260px;overflow:auto}
+.live-row{display:flex;align-items:center;gap:8px;min-width:0;background:#1a2330;border:1px solid #303c4f;border-radius:9px;padding:7px}
+.live-row img{width:30px;height:30px;border-radius:5px;image-rendering:pixelated;background:#0e1117;flex:none}
+.live-row .live-name{font-size:12px;font-weight:750;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.live-row .live-coords{font-size:10px;color:var(--muted);font-family:ui-monospace,monospace}
+.live-login{position:fixed;inset:0;z-index:50;background:#060a10eF;display:none;align-items:center;justify-content:center;padding:20px}
+.live-login.show{display:flex}.live-login-card{width:min(420px,100%);border:1px solid #40516a;border-radius:16px;background:#151d28;box-shadow:0 24px 100px #000c;padding:24px}
+.live-login-card h2{margin:0 0 8px;font-size:20px}.live-login-card p{margin:0 0 16px;color:#aab9cc;font-size:12px;line-height:1.6}
+.live-login-card input{width:100%;background:#0d141e;color:var(--text);border:1px solid #40516a;border-radius:9px;padding:11px;margin:0 0 10px}
+.live-login-card .live-login-error{min-height:18px;color:#fda4af;font-size:12px;margin:0 0 8px}
+@media(max-width:1120px){.live-roster{max-height:180px}}
+
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <div class="brand"><div class="brandmark">▦</div><div class="brandname">BLOCKPLAN<small>MINECRAFT CITY PLANNER</small></div></div>
+    <div class="projecttitle"><input id="projectName" aria-label="Projektname" value="Meine Minecraft-Stadt" maxlength="70"><span class="status"><span class="dot"></span><span id="saveStatus">Lokal gespeichert</span></span></div>
+    <div class="topactions"><button id="helpBtn">? Hilfe</button><button id="exportBtn" class="primary">↓ Export</button></div>
+  </header>
+  <main class="workspace">
+    <aside class="panel leftpanel">
+      <div class="panelhead"><h2>Werkzeuge</h2><span class="tiny">BUILD MODE</span></div>
+      <div class="panelbody">
+        <div class="tools">
+          <button class="toolbtn active" data-mode="place"><span class="toolicon">＋</span><span>Platzieren</span></button>
+          <button class="toolbtn" data-mode="erase"><span class="toolicon">⌫</span><span>Entfernen</span></button>
+        </div>
+        <div class="subsection">
+          <div class="sectiontop"><h3 class="sectiontitle">Blockpalette</h3><span class="tiny">6 Materialien</span></div>
+          <div class="materials" id="materials"></div>
+          <div class="hint"><strong>Bedienung</strong><br>Linksklick: Block setzen/entfernen.<br>Maus ziehen: Ansicht verschieben.<br>Mausrad: Zoom · <span class="keycap">Shift</span> + Klick: Block entfernen.</div>
+        </div>
+        <div class="subsection">
+          <div class="sectiontop"><h3 class="sectiontitle">Projekt</h3></div>
+          <div class="tools">
+            <button id="newBtn" class="toolbtn"><span class="toolicon">＋</span><span>Neu starten</span></button>
+            <button id="importBtn" class="toolbtn"><span class="toolicon">↑</span><span>JSON laden</span></button>
+            <input id="fileInput" class="fileinput" type="file" accept="application/json,.json">
+            <button id="pngBtn" class="toolbtn"><span class="toolicon">▧</span><span>Bild exportieren</span></button>
+            <button id="centerBtn" class="toolbtn"><span class="toolicon">⌖</span><span>Ansicht zentrieren</span></button>
+          </div>
+        </div>
+      </div>
+    </aside>
+    <section class="panel viewer">
+      <div class="viewerhead">
+        <button class="viewtab active" id="isoTab">▧ Isometrisch</button>
+        <button class="viewtab" id="gridTab">▦ Raster</button>
+        <span class="spacer"></span>
+        <div class="viewcontrols"><button class="icon" id="rotateLeft" title="Ansicht nach links drehen">↶</button><button class="icon" id="rotateRight" title="Ansicht nach rechts drehen">↷</button><button class="icon" id="zoomOut" title="Verkleinern">−</button><button class="icon" id="zoomIn" title="Vergrößern">＋</button></div>
+      </div>
+      <div class="canvaswrap" id="canvasWrap">
+        <canvas id="world" aria-label="Interaktive Minecraft-Bauplanansicht"></canvas>
+        <div class="player-overlay" id="playerOverlay" aria-hidden="true"></div>
+        <div class="overlaytop"><span class="pill emph">● Live-Vorschau</span><span class="pill">Raster 24 × 24</span><span class="pill" id="modeBadge">Platzieren</span></div>
+        <div class="crosshair"><div class="coords" id="hoverCoords">X: — &nbsp; Z: —<br>Y: 0</div></div>
+        <div class="canvasnote" id="canvasNote">DEMO-STADT · Beispielblöcke zum Ausprobieren – kein Original-Bauplan.</div>
+      </div>
+      <div class="viewerfoot"><span><span class="keycap">LMB</span> setzen</span><span><span class="keycap">Shift</span> + <span class="keycap">LMB</span> löschen</span><span><span class="keycap">Drag</span> verschieben</span><span class="spacer"></span><span id="worldSize">24 × 24 Blöcke Grundfläche</span></div>
+    </section>
+    <aside class="rightstack">
+      <section class="panel" id="livePlayersPanel">
+        <div class="panelhead"><h2>Live-Spieler</h2><span id="liveBadge" class="live-state">Offline</span></div>
+        <div class="panelbody">
+          <div class="live-tools">
+            <label>Server-ID<select id="liveServerSelect"><option value="my-server">my-server</option></select></label>
+            <label>Polling<div id="livePollLabel" style="padding:7px 0;color:#aebbd0">1 Sekunde</div></label>
+            <label>Ursprung X<input id="mapOriginX" type="number" step="1" value="0"></label>
+            <label>Ursprung Z<input id="mapOriginZ" type="number" step="1" value="0"></label>
+          </div>
+          <div class="tiny" style="margin-bottom:9px">X/Z setzen den Minecraft-Block, der Rasterfeld (0,0) entspricht. Skin-Kopf und Marker erscheinen nur, wenn die Position in das 24×24-Raster fällt.</div>
+          <div class="live-roster" id="liveRoster"><div class="empty">Bitte im Live-Backend anmelden.</div></div>
+          <div class="tiny" id="liveUpdatedAt" style="margin-top:9px">Noch keine Live-Daten.</div>
+        </div>
+      </section>
+      <section class="panel">
+        <div class="panelhead"><h2>Projektstatus</h2><span class="tiny">ÜBERSICHT</span></div>
+        <div class="panelbody">
+          <div class="metricgrid"><div class="metric"><strong id="totalBlocks">0</strong><span>Blöcke gesamt</span></div><div class="metric"><strong id="heightStat">0</strong><span>Max. Höhe</span></div></div>
+          <div class="sectiontop" style="margin-top:16px"><h3 class="sectiontitle">Baufortschritt</h3><span class="tiny" id="progressText">0%</span></div>
+          <div class="progressline"><span id="progressBar"></span></div>
+          <div class="tiny">Als fertig markierte Blöcke</div>
+          <div style="margin-top:12px;display:flex;gap:8px"><button class="small" id="markAllBtn">Alle fertig</button><button class="small" id="unmarkAllBtn">Markierungen zurücksetzen</button></div>
+        </div>
+      </section>
+      <section class="panel">
+        <div class="panelhead"><h2>Ebenensteuerung</h2><span class="tiny">Y-ACHSE</span></div>
+        <div class="panelbody">
+          <div class="layercontrol"><div><div class="tiny">Aktuelle Ebene</div><div class="layernum"><strong id="layerValue">0</strong><span class="tiny">Y-Koordinate</span></div></div><div class="stepper"><button class="icon" id="layerDown" title="Ebene tiefer">−</button><button class="icon" id="layerUp" title="Ebene höher">＋</button></div></div>
+          <input type="range" id="layerSlider" min="0" max="15" value="0" style="width:100%;margin-top:14px;accent-color:var(--accent)">
+          <div style="display:flex;justify-content:space-between" class="tiny"><span>Ebene 0</span><span>Ebene 15</span></div>
+        </div>
+      </section>
+      <section class="panel">
+        <div class="panelhead"><h2>Materialbedarf</h2><span class="tiny" id="matKinds">0 Sorten</span></div>
+        <div class="panelbody"><div class="list" id="inventory"><div class="empty">Noch keine Blöcke platziert.</div></div></div>
+      </section>
+      <section class="panel rightbottom">
+        <div class="panelhead"><h2>Fehlende Modelldaten</h2><span style="color:var(--accent2);font-size:11px">WICHTIG</span></div>
+        <div class="panelbody"><div class="warning"><strong>Das ist noch kein echter Stadt-Bauplan.</strong>Die Ansicht enthält nur austauschbare Demo-Blöcke. Für deine tatsächliche Stadt fehlen noch:<ul><li>maßstäbliche Vorlage / Referenzbilder</li><li>Grundriss und Zielmaße</li><li>optional eine Welt- oder Modell-Datei</li></ul></div><div class="tiny" style="margin-top:10px">Aktuell unterstützt: eigenes Blockplan-JSON importieren/exportieren. `.schem`, `.litematic` und Minecraft-Welten werden noch nicht direkt eingelesen.</div></div>
+      </section>
+    </aside>
+  </main>
+  <footer class="bottomhint"><span>BLOCKPLAN · Live-Bridge-Prototyp · Webserver erforderlich</span><span>Live-Spielerdaten nur für freigegebene Spieler; Skin-Köpfe werden extern von mc-heads.net geladen.</span></footer>
+</div>
+<div class="modalback" id="helpModal" role="dialog" aria-modal="true" aria-labelledby="helpTitle"><div class="modal"><div class="modalheader"><h2 id="helpTitle">So verwendest du Blockplan</h2><button id="closeHelp" class="icon" aria-label="Schließen">×</button></div><div class="modalcontent"><p><strong>1. Material auswählen</strong><br>Wähle links Gras, Stein, Holz, Ziegel, Glas oder Wasser.</p><p><strong>2. Ebene einstellen</strong><br>Wähle rechts die Y-Höhe. Ebene 0 ist der Boden; höhere Ebenen stapeln Blöcke darüber.</p><p><strong>3. Stadt bauen</strong><br>Klicke eine Rasterzelle, um einen Block zu setzen. Mit Werkzeug „Entfernen“ oder Shift-Klick löschst du ihn. Ziehe die Maus, um die Ansicht zu verschieben.</p><p><strong>4. Speichern und teilen</strong><br>„Export“ lädt dein Projekt als JSON herunter. Mit „JSON laden“ kannst du es später wieder öffnen. „Bild exportieren“ erzeugt eine PNG-Vorschau.</p><p><strong>Hinweis zu Modelldaten</strong><br>Die mitgelieferten Blöcke sind ausschließlich eine Demo-Stadt. Es liegen keine Daten von Papaplattes Marineford-Modell bei. Das JSON-Format dieses Prototyps ist dokumentiert in <code>README.md</code>.</p><button id="helpExport" class="primary">Projektformat exportieren</button></div></div></div>
+<div class="live-login" id="liveLoginOverlay" role="dialog" aria-modal="true" aria-labelledby="liveLoginTitle">
+  <form class="live-login-card" id="liveLoginForm">
+    <h2 id="liveLoginTitle">Blockplan Live anmelden</h2>
+    <p>Die Live-Spielerdaten sind geschützt. Melde dich mit dem Dashboard-Passwort an, das du im Backend eingerichtet hast. Blockplan offline bauen geht weiterhin, sobald du den Dialog schließt.</p>
+    <input id="livePassword" type="password" autocomplete="current-password" placeholder="Dashboard-Passwort" required minlength="1">
+    <div class="live-login-error" id="liveLoginError" role="status"></div>
+    <button type="submit" class="primary" style="width:100%">Anmelden</button>
+    <button type="button" id="liveSkipLogin" style="width:100%;margin-top:8px">Ohne Live-Verbindung fortfahren</button>
+  </form>
+</div>
+<div class="toast" id="toast" role="status"></div>
+<script>
+(() => {
+  'use strict';
+  const $ = s => document.querySelector(s);
+  const canvas = $('#world'), ctx = canvas.getContext('2d');
+  const materials = [
+    {id:'grass',name:'Gras',color:'#75a85a',top:'#8dca6c',left:'#547d43',right:'#67984f'},
+    {id:'stone',name:'Stein',color:'#8996a5',top:'#b0bac5',left:'#677381',right:'#7b8795'},
+    {id:'wood',name:'Holz',color:'#9b6a3f',top:'#c59058',left:'#6f492d',right:'#875733'},
+    {id:'brick',name:'Ziegel',color:'#b96250',top:'#d77b64',left:'#804538',right:'#a15040'},
+    {id:'glass',name:'Glas',color:'#5caeb8',top:'#8be0df',left:'#3d7e91',right:'#4f9ba6'},
+    {id:'water',name:'Wasser',color:'#357fc0',top:'#58b5e7',left:'#225d91',right:'#2c71a7'}
+  ];
+  const GRID = 24, TILE_W = 30, TILE_H = 16, BLOCK_H = 15;
+  let state = {version:1,name:'Meine Minecraft-Stadt',gridSize:GRID,blocks:[],completed:[]};
+  let selectedMaterial = 'grass', mode = 'place', layer = 0, rotation = 0, zoom = 1, panX = 0, panY = 0, gridMode = false;
+  let hover = null, isDragging = false, dragStart = null, lastPointer = null, moved = false, toastTimeout;
+  let livePlayers = [], liveServerId = 'my-server', mapOriginX = Number(localStorage.getItem('blockplan-origin-x') || 0), mapOriginZ = Number(localStorage.getItem('blockplan-origin-z') || 0), liveAuthenticated = false, livePollTimer = null;
+  const matById = id => materials.find(m => m.id === id) || materials[0];
+  const key = (x,y,z) => `${x},${y},${z}`;
+  const blockMap = () => new Map(state.blocks.map(b => [key(b.x,b.y,b.z), b]));
+
+  function seedDemo(){
+    // Small fictional test settlement: these blocks are placeholders, not imported model data.
+    const b=[]; const add=(x,y,z,m)=>b.push({x,y,z,material:m,done:false});
+    for(let x=4;x<=19;x++) for(let z=4;z<=19;z++) if((x===4||x===19||z===4||z===19) && (x+z)%4!==0) add(x,0,z,'stone');
+    // central plaza
+    for(let x=9;x<=14;x++) for(let z=9;z<=14;z++) add(x,0,z,'stone');
+    // central tower / town hall
+    for(let y=1;y<=5;y++) for(let x=10;x<=13;x++) for(let z=10;z<=13;z++) if(x===10||x===13||z===10||z===13) add(x,y,z,'stone');
+    for(let x=9;x<=14;x++) for(let z=9;z<=14;z++) add(x,6,z,'brick');
+    // four simple demonstration houses
+    [[6,7],[16,7],[6,15],[16,15]].forEach(([hx,hz],i)=>{
+      for(let y=1;y<=2;y++) for(let x=hx;x<hx+3;x++) for(let z=hz;z<hz+3;z++) if(x===hx||x===hx+2||z===hz||z===hz+2) add(x,y,z,'wood');
+      for(let x=hx-1;x<=hx+3;x++) for(let z=hz-1;z<=hz+3;z++) if(x===hx-1||x===hx+3||z===hz-1||z===hz+3) add(x,3,z,'brick');
+      add(hx+1,1,hz,'glass'); add(hx+1,2,hz,'glass');
+    });
+    // decorative trees
+    [[7,5],[16,5],[7,18],[17,18],[20,11],[3,12]].forEach(([x,z])=>{add(x,0,z,'wood');add(x,1,z,'wood');for(let dx=-1;dx<=1;dx++)for(let dz=-1;dz<=1;dz++)add(x+dx,2,z+dz,'grass');add(x,3,z,'grass');});
+    state.blocks = b.filter(block=>block.x>=0&&block.z>=0&&block.x<GRID&&block.z<GRID);
+    state.completed=[]; state.name='Meine Minecraft-Stadt';
+  }
+  function renderMaterials(){
+    $('#materials').innerHTML = materials.map(m=>`<button class="mat ${m.id===selectedMaterial?'selected':''}" data-mat="${m.id}" title="${m.name}"><span class="swatch" style="background:${m.top}"></span><span class="matname">${m.name}</span></button>`).join('');
+    $('#materials').querySelectorAll('[data-mat]').forEach(btn=>btn.addEventListener('click',()=>{selectedMaterial=btn.dataset.mat;renderMaterials();}));
+  }
+  function resize(){
+    const dpr=Math.min(window.devicePixelRatio||1,2), rect=canvas.getBoundingClientRect();
+    canvas.width=Math.max(1,Math.floor(rect.width*dpr)); canvas.height=Math.max(1,Math.floor(rect.height*dpr));
+    ctx.setTransform(dpr,0,0,dpr,0,0); draw();
+  }
+  function dims(){const r=canvas.getBoundingClientRect();return {w:r.width,h:r.height};}
+  function projectCoord(x,z){
+    const n=GRID-1;
+    if(rotation===0) return [x,z];
+    if(rotation===1) return [z,n-x];
+    if(rotation===2) return [n-x,n-z];
+    return [n-z,x];
+  }
+  function unrotate(rx,rz){const n=GRID-1;
+    if(rotation===0) return [rx,rz];
+    if(rotation===1) return [n-rz,rx];
+    if(rotation===2) return [n-rx,n-rz];
+    return [rz,n-rx];
+  }
+  function geometry(){const {w,h}=dims(), tw=TILE_W*zoom, th=TILE_H*zoom, bh=BLOCK_H*zoom;return {w,h,tw,th,bh,ox:w/2+panX,oy:h*.33+panY};}
+  function screen(x,y,z,g){const [rx,rz]=projectCoord(x,z), c=(GRID-1)/2;return [g.ox+(rx-rz)*g.tw/2,g.oy+(rx+rz-2*c)*g.th/2-y*g.bh];}
+  function poly(points,fill,stroke=null){ctx.beginPath();ctx.moveTo(points[0][0],points[0][1]);for(let i=1;i<points.length;i++)ctx.lineTo(points[i][0],points[i][1]);ctx.closePath();ctx.fillStyle=fill;ctx.fill();if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=.65;ctx.stroke();}}
+  function diamond(x,y,tw,th){return [[x,y],[x+tw/2,y+th/2],[x,y+th],[x-tw/2,y+th/2]];}
+  function drawCube(b,g,alpha=1){
+    const m=matById(b.material), [sx,sy]=screen(b.x,b.y,b.z,g), tw=g.tw,th=g.th,bh=g.bh;
+    const top=diamond(sx,sy,tw,th), left=[top[3],top[2],[top[2][0],top[2][1]+bh],[top[3][0],top[3][1]+bh]], right=[top[2],top[1],[top[1][0],top[1][1]+bh],[top[2][0],top[2][1]+bh]];
+    ctx.globalAlpha=alpha; poly(left,m.left,'#10192370');poly(right,m.right,'#10192370');poly(top,m.top,'#10192380');
+    if(b.done){ctx.save();ctx.globalAlpha=.95;ctx.strokeStyle='#d6ffe8';ctx.lineWidth=1.4;ctx.beginPath();ctx.moveTo(sx-tw*.12,sy+th*.52);ctx.lineTo(sx-tw*.01,sy+th*.66);ctx.lineTo(sx+tw*.2,sy+th*.35);ctx.stroke();ctx.restore();}
+    ctx.globalAlpha=1;
+  }
+  function draw(){
+    if(!ctx||!canvas.width)return;
+    const g=geometry(), {w,h}=g;ctx.clearRect(0,0,w,h);
+    // low-contrast background texture
+    ctx.save();ctx.globalAlpha=.12;ctx.strokeStyle='#7890a7';ctx.lineWidth=1;
+    for(let y=18;y<h;y+=42){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(w,y);ctx.stroke();}ctx.restore();
+    const base=[];for(let x=0;x<GRID;x++)for(let z=0;z<GRID;z++)base.push([x,z]);
+    base.sort((a,b)=>{let pa=projectCoord(...a),pb=projectCoord(...b);return (pa[0]+pa[1])-(pb[0]+pb[1]);});
+    // Ground grid
+    base.forEach(([x,z])=>{const [sx,sy]=screen(x,0,z,g), d=diamond(sx,sy,g.tw,g.th);poly(d,gridMode?'#304b60a8':'#263d4b66', '#4c657a50');});
+    // Subtle build-area border
+    const corners=[[0,0],[GRID-1,0],[GRID-1,GRID-1],[0,GRID-1]].map(([x,z])=>screen(x,0,z,g));
+    ctx.beginPath();ctx.moveTo(...corners[0]);corners.slice(1).forEach(p=>ctx.lineTo(...p));ctx.closePath();ctx.strokeStyle='#70cabe70';ctx.lineWidth=2;ctx.stroke();
+    const sorted=state.blocks.slice().sort((a,b)=>{const pa=projectCoord(a.x,a.z),pb=projectCoord(b.x,b.z);return (pa[0]+pa[1])-(pb[0]+pb[1]) || a.y-b.y;});
+    sorted.forEach(b=>drawCube(b,g,gridMode?.8:1));
+    drawLivePlayerPins(g);
+    if(hover && hover.x>=0&&hover.x<GRID&&hover.z>=0&&hover.z<GRID){
+      const [sx,sy]=screen(hover.x,layer,hover.z,g);const d=diamond(sx,sy,g.tw,g.th);ctx.save();ctx.setLineDash([4,3]);ctx.lineWidth=2;ctx.strokeStyle=mode==='erase'?'#fb7185':'#9effe0';ctx.fillStyle=mode==='erase'?'#fb71851c':'#9effe016';poly(d,ctx.fillStyle,ctx.strokeStyle);ctx.restore();
+    }
+  }
+  function drawLivePlayerPins(g){
+    const overlay=$('#playerOverlay'); if(!overlay)return;
+    const seen=new Set();
+    for(const p of livePlayers){
+      const gx=Number(p.x)-mapOriginX, gz=Number(p.z)-mapOriginZ;
+      if(!Number.isFinite(gx)||!Number.isFinite(gz)||gx<0||gz>GRID-1||gz<0||gx>GRID-1)continue;
+      const id=String(p.uuid||p.name||'unknown');seen.add(id);
+      let pin=overlay.querySelector(`[data-player-id="${CSS.escape(id)}"]`);
+      if(!pin){
+        pin=document.createElement('div');pin.className='player-pin';pin.dataset.playerId=id;
+        const img=document.createElement('img');img.alt='Minecraft-Skin von '+String(p.name||'Spieler');img.loading='lazy';
+        if(p.uuid){img.src='https://mc-heads.net/avatar/'+encodeURIComponent(p.uuid)+'/32';img.onerror=()=>{img.style.display='none';};}
+        const label=document.createElement('div');label.className='pinname';pin.append(img,label);overlay.append(pin);
+      }
+      const label=pin.querySelector('.pinname');label.textContent=String(p.name||'Spieler')+' · Y'+Math.floor(Number(p.y)||0);
+      const img=pin.querySelector('img');if(p.uuid&&img.dataset.uuid!==p.uuid){img.dataset.uuid=p.uuid;img.src='https://mc-heads.net/avatar/'+encodeURIComponent(p.uuid)+'/32';img.style.display='block';}
+      const [sx,sy]=screen(gx,0,gz,g);pin.style.left=sx+'px';pin.style.top=(sy-2)+'px';pin.title=`${p.name||''} X ${Number(p.x).toFixed(1)} Y ${Number(p.y).toFixed(1)} Z ${Number(p.z).toFixed(1)}`;
+    }
+    overlay.querySelectorAll('[data-player-id]').forEach(pin=>{if(!seen.has(pin.dataset.playerId))pin.remove();});
+  }
+
+  function renderLiveRoster(){
+    const root=$('#liveRoster');root.replaceChildren();
+    if(!liveAuthenticated){root.innerHTML='<div class="empty">Bitte im Live-Backend anmelden.</div>';return;}
+    if(!livePlayers.length){root.innerHTML='<div class="empty">Keine freigegebenen Spieler online oder noch kein aktueller Snapshot.</div>';return;}
+    for(const p of livePlayers){
+      const row=document.createElement('div');row.className='live-row';
+      const img=document.createElement('img');img.alt='';img.loading='lazy';
+      if(p.uuid){img.src='https://mc-heads.net/avatar/'+encodeURIComponent(p.uuid)+'/32';img.onerror=()=>img.style.display='none';}
+      const info=document.createElement('div');info.style.minWidth='0';info.style.flex='1';
+      const name=document.createElement('div');name.className='live-name';name.textContent=String(p.name||'Spieler');
+      const coords=document.createElement('div');coords.className='live-coords';coords.textContent=`X ${Number(p.x).toFixed(1)} · Y ${Number(p.y).toFixed(1)} · Z ${Number(p.z).toFixed(1)}`;
+      info.append(name,coords);row.append(img,info);root.append(row);
+    }
+  }
+
+  function updateLiveBadge(text,kind=''){const el=$('#liveBadge');el.textContent=text;el.className='live-state'+(kind?' '+kind:'');}
+  async function checkLiveSession(){
+    try{
+      const res=await fetch('/api/v1/session',{cache:'no-store'});if(!res.ok)throw new Error('Backend nicht erreichbar');
+      const data=await res.json();liveAuthenticated=!!data.authenticated;
+      const select=$('#liveServerSelect'),current=liveServerId;select.replaceChildren();
+      for(const id of (data.servers||[])){const opt=document.createElement('option');opt.value=id;opt.textContent=id;select.append(opt);}
+      if((data.servers||[]).includes(current))select.value=current;else if(data.servers?.length){select.value=data.servers[0];liveServerId=data.servers[0];}
+      if(liveAuthenticated){$('#liveLoginOverlay').classList.remove('show');updateLiveBadge('Verbunden','ok');startLivePolling();await pollLivePlayers();}
+      else {if(!sessionStorage.getItem('blockplan-skip-live-login'))$('#liveLoginOverlay').classList.add('show');updateLiveBadge('Anmeldung nötig','warn');renderLiveRoster();}
+    }catch(e){liveAuthenticated=false;updateLiveBadge('Backend offline','warn');$('#liveUpdatedAt').textContent='Live-Backend nicht erreichbar. Bauplan funktioniert weiterhin offline.';renderLiveRoster();}
+  }
+  async function pollLivePlayers(){
+    if(!liveAuthenticated)return;
+    liveServerId=$('#liveServerSelect').value||liveServerId;
+    try{
+      const res=await fetch('/api/v1/players?serverId='+encodeURIComponent(liveServerId),{cache:'no-store'});
+      if(res.status===401){liveAuthenticated=false;updateLiveBadge('Anmeldung abgelaufen','warn');$('#liveLoginOverlay').classList.add('show');return;}
+      if(!res.ok)throw new Error('HTTP '+res.status);
+      const data=await res.json();livePlayers=data.stale?[]:(Array.isArray(data.players)?data.players:[]);
+      updateLiveBadge(data.stale?'Warte auf Server':'Live · '+livePlayers.length,'ok');
+      $('#liveUpdatedAt').textContent=data.updatedAt?'Letztes Update: '+new Date(data.updatedAt).toLocaleTimeString('de-DE'):'Noch kein Snapshot vom Server.';
+      renderLiveRoster();draw();
+    }catch(e){updateLiveBadge('Verbindung gestört','warn');}
+  }
+  function startLivePolling(){if(livePollTimer)clearInterval(livePollTimer);livePollTimer=setInterval(pollLivePlayers,1000);}
+  $('#liveLoginForm').addEventListener('submit',async e=>{
+    e.preventDefault();$('#liveLoginError').textContent='';
+    try{
+      const res=await fetch('/api/v1/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:$('#livePassword').value})});
+      const data=await res.json();if(!res.ok)throw new Error(data.error||'Anmeldung fehlgeschlagen');
+      $('#livePassword').value='';sessionStorage.removeItem('blockplan-skip-live-login');await checkLiveSession();
+    }catch(err){$('#liveLoginError').textContent=err.message||'Anmeldung fehlgeschlagen.';}
+  });
+  $('#liveSkipLogin').addEventListener('click',()=>{sessionStorage.setItem('blockplan-skip-live-login','1');$('#liveLoginOverlay').classList.remove('show');});
+  $('#liveServerSelect').addEventListener('change',()=>{liveServerId=$('#liveServerSelect').value;pollLivePlayers();});
+  $('#mapOriginX').value=mapOriginX;$('#mapOriginZ').value=mapOriginZ;
+  $('#mapOriginX').addEventListener('change',e=>{mapOriginX=Number(e.target.value)||0;localStorage.setItem('blockplan-origin-x',String(mapOriginX));draw();});
+  $('#mapOriginZ').addEventListener('change',e=>{mapOriginZ=Number(e.target.value)||0;localStorage.setItem('blockplan-origin-z',String(mapOriginZ));draw();});
+
+  function updateStats(){
+    const n=state.blocks.length, completed=state.blocks.filter(b=>b.done).length;
+    $('#totalBlocks').textContent=n.toLocaleString('de-DE');$('#heightStat').textContent=state.blocks.reduce((max,b)=>Math.max(max,b.y+1),0);
+    const p=n?Math.round(completed/n*100):0;$('#progressText').textContent=p+'%';$('#progressBar').style.width=p+'%';
+    const counts={};state.blocks.forEach(b=>counts[b.material]=(counts[b.material]||0)+1);
+    const active=materials.filter(m=>counts[m.id]);$('#matKinds').textContent=active.length+' Sorten';
+    $('#inventory').innerHTML=active.length?active.map(m=>`<div class="listrow"><span class="swatch" style="background:${m.top}"></span><span>${m.name}</span><span class="count">${counts[m.id]}</span></div>`).join(''):'<div class="empty">Noch keine Blöcke platziert.</div>';
+    $('#layerValue').textContent=layer;$('#layerSlider').value=layer;$('#worldSize').textContent=`${GRID} × ${GRID} Raster · ${n.toLocaleString('de-DE')} Blöcke`;
+  }
+  function updateSave(){
+    $('#projectName').value=state.name;
+    try{localStorage.setItem('blockplan-v1',JSON.stringify(state));$('#saveStatus').textContent='Lokal gespeichert';}
+    catch(e){$('#saveStatus').textContent='Nur im aktuellen Tab';}
+  }
+  function commit(){state.blocks=state.blocks.filter(b=>Number.isInteger(b.x)&&Number.isInteger(b.y)&&Number.isInteger(b.z)&&b.x>=0&&b.x<GRID&&b.z>=0&&b.z<GRID&&b.y>=0&&b.y<=32);state.completed=state.blocks.filter(b=>b.done).map(b=>key(b.x,b.y,b.z));updateStats();updateSave();draw();}
+  function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');clearTimeout(toastTimeout);toastTimeout=setTimeout(()=>t.classList.remove('show'),2500);}
+  function canvasPoint(e){const r=canvas.getBoundingClientRect();return {x:e.clientX-r.left,y:e.clientY-r.top};}
+  function tileAt(px,py,y=layer){const g=geometry();const d1=(px-g.ox)/(g.tw/2),d2=(py-g.oy+y*g.bh)/(g.th/2);const c=(GRID-1)/2;const rx=Math.round((d1+d2+2*c)/2),rz=Math.round((d2-d1+2*c)/2);const [x,z]=unrotate(rx,rz);return {x,z};}
+  function editAt(p,erase){const pos=tileAt(p.x,p.y,layer);if(pos.x<0||pos.x>=GRID||pos.z<0||pos.z>=GRID)return;const k=key(pos.x,layer,pos.z),i=state.blocks.findIndex(b=>key(b.x,b.y,b.z)===k);
+    if(erase||mode==='erase'){if(i>=0){state.blocks.splice(i,1);toast('Block entfernt');}else{toast('Auf dieser Ebene ist kein Block');return;}}
+    else{if(i>=0){state.blocks[i].material=selectedMaterial;toast('Material geändert');}else{state.blocks.push({x:pos.x,y:layer,z:pos.z,material:selectedMaterial,done:false});toast(`${matById(selectedMaterial).name} platziert`);}}
+    commit();
+  }
+  canvas.addEventListener('pointerdown',e=>{canvas.setPointerCapture(e.pointerId);isDragging=true;moved=false;dragStart=canvasPoint(e);lastPointer={x:e.clientX,y:e.clientY};});
+  canvas.addEventListener('pointermove',e=>{const p=canvasPoint(e);hover=tileAt(p.x,p.y);$('#hoverCoords').innerHTML=`X: ${hover.x} &nbsp; Z: ${hover.z}<br>Y: ${layer}`;
+    if(isDragging&&lastPointer){const dx=e.clientX-lastPointer.x,dy=e.clientY-lastPointer.y;if(Math.abs(e.clientX-dragStart.x)+Math.abs(e.clientY-dragStart.y)>4)moved=true;if(moved){panX+=dx;panY+=dy;draw();}lastPointer={x:e.clientX,y:e.clientY};}else draw();});
+  canvas.addEventListener('pointerup',e=>{if(isDragging&&!moved){const p=canvasPoint(e);if(e.shiftKey)editAt(p,true);else editAt(p,false);}isDragging=false;lastPointer=null;});
+  canvas.addEventListener('pointercancel',()=>{isDragging=false;lastPointer=null;});
+  canvas.addEventListener('wheel',e=>{e.preventDefault();zoom=Math.max(.55,Math.min(1.8,zoom*(e.deltaY<0?1.08:.92)));draw();},{passive:false});
+  document.querySelectorAll('[data-mode]').forEach(btn=>btn.addEventListener('click',()=>{mode=btn.dataset.mode;document.querySelectorAll('[data-mode]').forEach(b=>b.classList.toggle('active',b===btn));$('#modeBadge').textContent=mode==='place'?'Platzieren':'Entfernen';}));
+  function setLayer(v){layer=Math.max(0,Math.min(15,Number(v)||0));updateStats();draw();}
+  $('#layerDown').addEventListener('click',()=>setLayer(layer-1));$('#layerUp').addEventListener('click',()=>setLayer(layer+1));$('#layerSlider').addEventListener('input',e=>setLayer(e.target.value));
+  $('#rotateLeft').addEventListener('click',()=>{rotation=(rotation+3)%4;draw();});$('#rotateRight').addEventListener('click',()=>{rotation=(rotation+1)%4;draw();});
+  $('#zoomIn').addEventListener('click',()=>{zoom=Math.min(1.8,zoom*1.12);draw();});$('#zoomOut').addEventListener('click',()=>{zoom=Math.max(.55,zoom/1.12);draw();});
+  $('#centerBtn').addEventListener('click',()=>{panX=0;panY=0;zoom=1;rotation=0;draw();});
+  $('#gridTab').addEventListener('click',()=>{gridMode=true;$('#gridTab').classList.add('active');$('#isoTab').classList.remove('active');draw();});$('#isoTab').addEventListener('click',()=>{gridMode=false;$('#isoTab').classList.add('active');$('#gridTab').classList.remove('active');draw();});
+  $('#projectName').addEventListener('change',e=>{state.name=(e.target.value||'Meine Minecraft-Stadt').slice(0,70);updateSave();});
+  function download(filename,blob){const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=filename;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);}
+  function exportJson(){const output={format:'blockplan-project',version:1,name:state.name,gridSize:GRID,description:'Blockplan prototype JSON. Coordinates: x=west/east, y=height, z=north/south. Demo blocks are placeholders, not a Minecraft world export.',materials:materials.map(m=>({id:m.id,name:m.name})),blocks:state.blocks.map(b=>({x:b.x,y:b.y,z:b.z,material:b.material,done:!!b.done}))};download((state.name.toLowerCase().replace(/[^a-z0-9äöüß]+/gi,'-').replace(/^-|-$/g,'')||'minecraft-stadt')+'.blockplan.json',new Blob([JSON.stringify(output,null,2)],{type:'application/json'}));toast('JSON-Projekt exportiert');}
+  $('#exportBtn').addEventListener('click',exportJson);$('#helpExport').addEventListener('click',()=>{exportJson();$('#helpModal').classList.remove('show');});
+  $('#pngBtn').addEventListener('click',()=>{const a=document.createElement('a');a.download='blockplan-vorschau.png';a.href=canvas.toDataURL('image/png');a.click();toast('PNG-Vorschau exportiert');});
+  $('#importBtn').addEventListener('click',()=>$('#fileInput').click());
+  $('#fileInput').addEventListener('change',async e=>{const f=e.target.files&&e.target.files[0];if(!f)return;try{const data=JSON.parse(await f.text());if(!Array.isArray(data.blocks))throw new Error('Das JSON enthält kein blocks-Array.');const loaded=[];for(const b of data.blocks){if(!Number.isInteger(b.x)||!Number.isInteger(b.y)||!Number.isInteger(b.z)||b.x<0||b.x>=GRID||b.z<0||b.z>=GRID||b.y<0||b.y>32||!materials.some(m=>m.id===b.material))continue;loaded.push({x:b.x,y:b.y,z:b.z,material:b.material,done:!!b.done});}const seen=new Set();state.blocks=loaded.filter(b=>{const k=key(b.x,b.y,b.z);if(seen.has(k))return false;seen.add(k);return true;});state.name=String(data.name||'Importierte Minecraft-Stadt').slice(0,70);$('#projectName').value=state.name;commit();toast(`${state.blocks.length} Blöcke geladen`);}catch(err){alert('Datei konnte nicht geladen werden: '+err.message);}finally{e.target.value='';}});
+  $('#newBtn').addEventListener('click',()=>{if(confirm('Aktuelles Projekt durch eine neue leere Stadt ersetzen? Exportiere zuerst, wenn du es behalten möchtest.')){state.blocks=[];state.name='Neue Minecraft-Stadt';$('#projectName').value=state.name;setLayer(0);commit();toast('Leeres Projekt erstellt');}});
+  $('#markAllBtn').addEventListener('click',()=>{state.blocks.forEach(b=>b.done=true);commit();toast('Alle Blöcke als fertig markiert');});$('#unmarkAllBtn').addEventListener('click',()=>{state.blocks.forEach(b=>b.done=false);commit();toast('Markierungen zurückgesetzt');});
+  $('#helpBtn').addEventListener('click',()=>$('#helpModal').classList.add('show'));$('#closeHelp').addEventListener('click',()=>$('#helpModal').classList.remove('show'));$('#helpModal').addEventListener('click',e=>{if(e.target===$('#helpModal'))$('#helpModal').classList.remove('show');});document.addEventListener('keydown',e=>{if(e.key==='Escape')$('#helpModal').classList.remove('show');if(e.key==='[')setLayer(layer-1);if(e.key===']')setLayer(layer+1);});
+  try{const saved=localStorage.getItem('blockplan-v1');if(saved){const parsed=JSON.parse(saved);if(Array.isArray(parsed.blocks)){state={...state,...parsed};state.blocks=state.blocks.filter(b=>materials.some(m=>m.id===b.material)&&b.x>=0&&b.x<GRID&&b.z>=0&&b.z<GRID&&b.y>=0&&b.y<=32);}}else seedDemo();}catch(e){seedDemo();}
+  renderMaterials();$('#projectName').value=state.name;updateStats();updateSave();
+  if('ResizeObserver' in window)new ResizeObserver(resize).observe(canvas);else window.addEventListener('resize',resize);resize();
+  renderLiveRoster();checkLiveSession();
+})();
+</script>
+</body>
+</html>
