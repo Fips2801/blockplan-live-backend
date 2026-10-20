@@ -331,7 +331,7 @@ button,input,select{font:inherit} button{cursor:pointer;color:inherit;background
       renderLiveRoster();draw();
     }catch(e){updateLiveBadge('Verbindung gestört','warn');}
   }
-  function startLivePolling(){if(livePollTimer)clearInterval(livePollTimer);livePollTimer=setInterval(pollLivePlayers,1000);}
+  function startLivePolling(){if(livePollTimer)clearInterval(livePollTimer);livePollTimer=setInterval(pollLivePlayers,250);}
   $('#liveLoginForm').addEventListener('submit',async e=>{
     e.preventDefault();$('#liveLoginError').textContent='';
     try{
