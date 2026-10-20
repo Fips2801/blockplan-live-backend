@@ -13,9 +13,43 @@ button,input,select{font:inherit} button{cursor:pointer;color:inherit;background
 
 /* Blockplan Live Bridge additions */
 .player-overlay{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:3}
-.player-pin{position:absolute;display:flex;flex-direction:column;align-items:center;gap:2px;transform:translate(-50%,-100%);filter:drop-shadow(0 2px 5px #000a);white-space:nowrap}
-.player-pin img{width:25px;height:25px;image-rendering:pixelated;border:2px solid #7dd3c7;border-radius:5px;background:#15202d;box-shadow:0 0 0 2px #0d141d}
-.player-pin .pinname{font-size:10px;font-weight:800;background:#0b121de8;border:1px solid #568b86;border-radius:5px;padding:2px 5px;color:#e7fff9;max-width:130px;overflow:hidden;text-overflow:ellipsis}
+.player-pin {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  transform: translate(-50%, -100%);
+  filter: drop-shadow(0 2px 5px #000a);
+  white-space: nowrap;
+
+  /* Spielerposition flüssig aktualisieren */
+  transition: left 220ms linear, top 220ms linear;
+  will-change: left, top;
+}
+
+.player-pin img {
+  width: 25px;
+  height: 25px;
+  image-rendering: pixelated;
+  border: 2px solid #7dd3c7;
+  border-radius: 5px;
+  background: #15202d;
+  box-shadow: 0 0 0 2px #0d141d;
+}
+
+.player-pin .pinname {
+  font-size: 10px;
+  font-weight: 800;
+  background: #0b121de8;
+  border: 1px solid #568b86;
+  border-radius: 5px;
+  padding: 2px 5px;
+  color: #e7fff9;
+  max-width: 130px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 .live-tools{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:10px}
 .live-tools label{font-size:10px;color:var(--muted);display:flex;flex-direction:column;gap:3px}
 .live-tools input,.live-tools select{width:100%;min-width:0;background:#0f1722;color:var(--text);border:1px solid #35445a;border-radius:7px;padding:6px 7px;font-size:12px}
